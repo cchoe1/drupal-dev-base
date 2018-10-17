@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  mariadb:
+    image: 'mariadb:5.5'
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_drupal
+      - MARIADB_DATABASE=bitnami_drupal
+    volumes:
+      - 'mariadb_data:/bitnami'
+  drupal:
+    image: 'drupal:8.6-apache'
+    labels:
+      kompose.service.type: nodeport
+    environment:
+      - MYSQLDB_HOST=mariadb
+      - MYSQLDB_PORT_NUMBER=3306
+      - DRUPAL_DATABASE_USER=bn_drupal
+      - DRUPAL_DATABASE_NAME=bitnami_drupal
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '${PWD}:/var/www/html/'
+    depends_on:
+      - mariadb
+volumes:
+  mariadb_data:
+    driver: local
+  app:
+    driver: local
