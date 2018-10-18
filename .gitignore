@@ -48,3 +48,5 @@ todo.txt
 
 *.sql
 *.sql.gz
+
+mariadb
