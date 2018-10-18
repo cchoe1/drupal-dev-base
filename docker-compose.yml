@@ -5,10 +5,10 @@ services:
     image: 'mariadb:5.5'
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_drupal
-      - MARIADB_DATABASE=bitnami_drupal
+      - MARIADB_USER=root
+      - MARIADB_DATABASE=drupal
     volumes:
-      - 'mariadb_data:/bitnami'
+      - 'mariadb_data:/var/www/mysql'
   drupal:
     image: 'drupal:8.6-apache'
     labels:
@@ -16,8 +16,8 @@ services:
     environment:
       - MYSQLDB_HOST=mariadb
       - MYSQLDB_PORT_NUMBER=3306
-      - DRUPAL_DATABASE_USER=bn_drupal
-      - DRUPAL_DATABASE_NAME=bitnami_drupal
+      - DRUPAL_DATABASE_USER=root
+      - DRUPAL_DATABASE_NAME=drupal
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - '80:80'
