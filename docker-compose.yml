@@ -8,7 +8,7 @@ services:
       - MARIADB_USER=root
       - MARIADB_DATABASE=drupal
     volumes:
-      - 'mariadb_data:/var/www/mysql'
+      - '${PWD}:/var/lib/mysql/'
   drupal:
     image: 'drupal:8.6-apache'
     labels:
