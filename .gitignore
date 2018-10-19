@@ -50,3 +50,4 @@ todo.txt
 *.sql.gz
 
 mariadb
+db/
