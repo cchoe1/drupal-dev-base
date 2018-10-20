@@ -7,8 +7,8 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_USER=root
+      - MYSQL_PASSWORD=Sigmanu99
       - MYSQL_DATABASE=drupal
     volumes:
       - '${PWD}/mariadb:/var/lib/mysql'
@@ -22,7 +22,7 @@ services:
       - MYSQLDB_PORT_NUMBER=3306
       - DRUPAL_DATABASE_USER=root
       - DRUPAL_DATABASE_NAME=drupal
-      - ALLOW_EMPTY_PASSWORD=yes
+      - DRUPAL_DATABASE_PASSWORD=Sigmanu99
       - WEBROOT=/var/www/html
     ports:
       - '80:80'
