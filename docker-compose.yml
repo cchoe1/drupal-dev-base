@@ -23,6 +23,7 @@ services:
       - DRUPAL_DATABASE_USER=root
       - DRUPAL_DATABASE_NAME=drupal
       - ALLOW_EMPTY_PASSWORD=yes
+      - WEBROOT=/var/www/html
     ports:
       - '80:80'
       - '443:443'
