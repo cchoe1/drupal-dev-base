@@ -28,7 +28,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - '${PWD}:/var/www/html/'
+      - '${WEBROOT}:/var/www/html/'
     depends_on:
       - mariadb
     volumes_from:
