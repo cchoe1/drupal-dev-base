@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  mariadb:
+    image: 'mariadb:latest'
+    hostname: mariadb
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER=root
+      - MYSQL_DATABASE=drupal
+    volumes:
+      - '${PWD}/mariadb:/var/lib/mysql'
+      - '/var/run/mysqld'
+  drupal:
+    image: 'c_drupal_prod:latest'
+    links:
+        - mariadb:mariadb
+    environment:
+      - MYSQLDB_HOST=mariadb
+      - MYSQLDB_PORT_NUMBER=3306
+      - DRUPAL_DATABASE_USER=root
+      - DRUPAL_DATABASE_NAME=drupal
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WEBROOT=/var/www/html
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '${PWD}:/var/www/html/'
+    depends_on:
+      - mariadb
+    volumes_from:
+      - mariadb
+volumes:
+  mariadb:
