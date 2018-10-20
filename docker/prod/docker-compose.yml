@@ -8,7 +8,7 @@ services:
       - '3306:3306'
     environment:
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=Sigmanu99
+      - MYSQL_ROOT_PASSWORD=Sigmanu99
       - MYSQL_DATABASE=drupal
     volumes:
       - '${PWD}/mariadb:/var/lib/mysql'
