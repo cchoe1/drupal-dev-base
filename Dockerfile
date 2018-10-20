@@ -12,4 +12,3 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     ln -s /root/.composer/vendor/bin/drush /usr/local/bin/drush
-
