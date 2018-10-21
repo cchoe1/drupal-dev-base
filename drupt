@@ -20,7 +20,11 @@ case "$1" in
         ;;
 
     bash)
-        docker exec -it dev_drupal_1 "sh -c" $2 $3
+        docker exec -it dev_drupal_1 sh -c "$2"
+        ;;
+
+    composer)
+        docker exec -it dev_drupal_1 $1 $2 $3
         ;;
 
     *)
