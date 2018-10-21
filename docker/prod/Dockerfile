@@ -9,7 +9,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
     unzip \
     mysql-client
 
-RUN apt-get install python-certbot-apache -t jessie-backports
+RUN apt-get install python-certbot-apache -y
 
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
