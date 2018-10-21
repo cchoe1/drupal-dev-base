@@ -1,0 +1,89 @@
+#!/usr/bin/env php
+
+<?php 
+/**
+ * Drupt is a command line tool for development use only.  The environment variables it sources is sourced directly from the dev docker environment.
+ *
+ * Use Drupt to quickly send drush commands to the application container.  
+ *
+ * See valid commands below
+ *
+ * Replace the above shebang with location to php executable, if the default does not work
+ *
+ *
+ *
+ *
+ *
+ */
+
+////////////////////////////
+//
+// Read env
+$env_text = file_get_contents('docker/dev/docker-compose.yml');
+preg_match('/WEBROOT=.*[\r\n]/', $env_text, $webroot_dirty);
+$webroot_dirty = explode('=', $webroot_dirty[0]);
+
+$webroot = str_replace("\n", "", $webroot_dirty[1]);
+
+//$drush = $webroot . '/vendor/bin/drush';
+
+////////////////////////////
+
+
+$command = $argv[1] ?? ''; // should be something like drush or bash
+$subcommand = $argv[2] ?? '';
+
+$valid_commands = [
+    'bash' => [
+        'bash',
+    ],
+    'drush' => [
+        'cr',
+        'config-export',
+        'config-import',
+        'sql-dump',
+        'sqlc'
+    ],
+];
+
+if (!in_array($command, array_keys($valid_commands))) {
+    echo "Not a valid command";
+    die();
+}
+
+$base_command = 'docker exec -i';
+
+$final_command = $base_command . " ";
+$final_command .= 'dev_drupal_1' . " ";
+
+switch ($command) {
+    case 'drush': 
+        $drush = $webroot . '/vendor/bin';
+        $drush = $drush . '/' . $command;
+        $final_command .= $drush . " ";
+        $final_command .= $subcommand . " ";
+
+        break;
+    case 'bash':
+        //$command = '/bin/' . $command;
+        //$final_command .= $command . " ";
+        if ($subcommand) {
+            $final_command .= 'sh -c ';
+            $final_command .= "'" . $subcommand . "'";
+        }
+        else {
+            $command = '/bin' . "/" . $command;
+            $final_command .= $command;
+            echo $final_command . PHP_EOL . PHP_EOL;
+            die();
+        }
+
+        break;
+}
+
+
+echo "BASE COMMAND: " . $final_command . PHP_EOL;
+
+$response = exec($final_command);
+
+echo $response . PHP_EOL;
