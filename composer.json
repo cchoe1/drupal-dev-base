@@ -14,7 +14,8 @@
         "drupal/file_permissions": "^1.0",
         "symfony/dom-crawler": "2.8",
         "symfony/browser-kit": "2.8",
-        "drupal/console": "^1.8"
+        "drupal/console": "^1.8",
+        "drupal/codesnippet": "^1.6"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

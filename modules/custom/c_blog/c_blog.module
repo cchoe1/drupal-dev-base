@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains c_blog.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function c_blog_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the c_blog module.
+    case 'help.page.c_blog':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Basic blog functionality') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c_blog_theme() {
+  return [
+    'c_blog' => [
+      'render element' => 'children',
+    ],
+  ];
+}
