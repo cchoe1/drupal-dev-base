@@ -24,6 +24,7 @@ services:
       - DRUPAL_DATABASE_NAME=drupal
       - DRUPAL_DATABASE_PASSWORD=Sigmanu99
       - WEBROOT=/var/www/html
+      - ENVIRONMENT=production
     ports:
       - '80:80'
       - '443:443'

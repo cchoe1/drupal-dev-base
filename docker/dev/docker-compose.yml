@@ -24,11 +24,12 @@ services:
       - DRUPAL_DATABASE_NAME=drupal
       - ALLOW_EMPTY_PASSWORD=yes
       - WEBROOT=/var/www/html
+      - ENVIRONMENT=dev
     ports:
       - '80:80'
       - '443:443'
     volumes:
-      - '${PWD}:/var/www/html/'
+      - '../../.:/var/www/html/'
     depends_on:
       - mariadb
     volumes_from:
