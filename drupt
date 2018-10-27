@@ -12,23 +12,59 @@ VENDOR_BIN="$WEBROOT/vendor/bin"
 
 case "$1" in
     drupal)
-        docker exec -it dev_drupal_1 "$VENDOR_BIN/$1" $2 $3
+        docker exec -it dev_drupal_1 "$VENDOR_BIN/$1" $2 $3 && wait
+        date +%Y/%m/%d\ %H:%M:%S
         ;;
 
     drush)
-        docker exec -it dev_drupal_1 "$VENDOR_BIN/$1" $2 $3
+        docker exec -i dev_drupal_1 "$VENDOR_BIN/$1" $2 $3 $4 $5 && wait
         ;;
 
     bash)
-        docker exec -it dev_drupal_1 sh -c "$2"
+        docker exec -it dev_drupal_1 sh -c "$2" && wait
+        date +%Y/%m/%d\ %H:%M:%S
         ;;
 
     composer)
-        docker exec -it dev_drupal_1 $1 $2 $3
+        docker exec -it dev_drupal_1 $1 $2 $3 && wait
+        chmod -R modules/ $USER:www-data
+        date +%Y/%m/%d\ %H:%M:%S
         ;;
 
+    mysql)
+        docker exec -it dev_drupal_1 $1 && wait
+        date +%Y/%m/%d\ %H:%M:%S
+        ;;
+
+    syncdb) # TODO: extract var names and source from config
+        FILENAME='dump.sql';
+        ssh production "bash -s" << EOF
+docker exec -i prod_drupal_1 $WEBROOT/vendor/bin/drush sql-dump > $WEBROOT/$FILENAME;
+exit;
+EOF
+        rsync -azP production:$WEBROOT/$FILENAME .;
+        echo "Data pulled... continue to sync? (y/n): ";
+        read sync_confirmation
+        if [ $sync_confirmation == 'y' ]; then
+            ./drupt drush sqlc < $FILENAME;
+            echo "Sync completed...";
+            rm $FILENAME;
+        elif [ $sync_confirmation == 'n' ]; then
+            echo "Sync aborted...";
+            rm $FILENAME;
+        else
+            echo "Unrecognized";
+            rm $FILENAME;
+        fi
+        ssh production "bash -s" << EOF
+rm $WEBROOT/$FILENAME;
+EOF
+        echo "Sync finished";
+        date +%Y/%m/%d\ %H:%M:%S;
+        ;;
     *)
-        echo "ANYTHING ELSE"
+        echo "Invalid command..." && wait
+        date +%Y/%m/%d\ %H:%M:%S
         ;;
 
 esac

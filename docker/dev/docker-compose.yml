@@ -5,7 +5,7 @@ services:
     image: 'mariadb:latest'
     hostname: mariadb
     ports:
-      - '3306:3306'
+      - '3307:3306'
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_USER=root
@@ -26,8 +26,8 @@ services:
       - WEBROOT=/var/www/html
       - ENVIRONMENT=dev
     ports:
-      - '80:80'
-      - '443:443'
+      - '81:80'
+      - '444:443'
     volumes:
       - '../../.:/var/www/html/'
     depends_on:
